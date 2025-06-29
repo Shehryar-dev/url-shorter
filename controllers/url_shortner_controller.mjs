@@ -16,12 +16,24 @@ export default async function handleGenerateNewShortUrl(req, res) {
 
 export async function getUrlId(req, res)  {
     const shortId = req.params.shortId;
-     const entry = await url.findOneAndUpdate({
+     const entry = await data.findOneAndUpdate({
         shortId
-    }, {$push: {
+    }, {
+        $push: {
         visitHistory:{
             timestamps: Date.now()
         }
     }})
+    console.log(`url : ${entry.redirectURL}`)
     res.redirect(entry.redirectURL);
+}
+
+export async function handleGetAnalytics(rew, res){
+ const shortId =req.params.shortId;
+ const result = await data.findOne({shortId});
+ console.log(result)
+ return res.json({
+    totalClicks: result.visitHistory.length,
+    analtic:result.visitHistory
+ })   
 }
