@@ -7,4 +7,4 @@ router.get('/analytics/:shortId', handleGetAnalytics );
 
 
 
-export default router;
+export const urlRouter = router;
