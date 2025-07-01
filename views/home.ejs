@@ -4,11 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EJS HOME PAGE</title>
+    <style>
+        *{
+            font-family: cursive;
+        }
+
+        table thead {
+            font-weight: bolder;
+            font-size: 32;
+        }
+    </style>
 </head>
 <body>
-    <h1>LALALALLALLALLAA</h1>
-    <% allURL.forEach(url=>{ %>
-        <li><%= url.shortId %></li>
-        <% }) %>
+    <h1>URL Shortener</h1>
+    <form method="POST" action="/url">
+        <label for="">Enter Your Original URL</label>
+        <input type="text"
+        name="url"
+        placeholder="https://example.com"
+        >
+        <button type="submit">Generate</button>
+    </form>
+
+    <% if(locals.id){ %>
+        <p>URL Generate: http://localhost:3000/url/<%= id  %></p>
+
+    <% } %>
+    <h2>Record Analytics</h2>
+    <% if(locals.urls){ %>
+        <table border="1px">
+            <thead style="padding: 12px;"> 
+                <tr>
+                    <th>S. NO</th>
+                <th>Short ID</th>
+                <th>Short URL</th>
+                <th>Redirect</th>
+                <th>Clicks</th>
+                </tr>
+            </thead>
+            <tbody style="padding: 22px;text-align: center;">
+                <% urls.forEach((url, index)=>{ %>
+                    <tr style="padding: 12px;text-align: justify;">
+                    <td style="padding: 12px;"><%= index + 1 %></td>
+                    <td style="padding: 12px;"><%= url.shortId %></td>
+                    <td style="padding: 12px;">http://localhost:3000/url/<%= url.shortId %></td>
+                    <td style="padding: 12px;"><%= url.redirectURL %></td>
+                    <td style="padding: 12px;"><%= url.visitHistory.length %></td>
+                    </tr>
+                    
+                <% })  %>
+            </tbody>
+        </table>
+    <% } %>
 </body>
 </html>

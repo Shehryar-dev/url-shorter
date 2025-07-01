@@ -1,10 +1,10 @@
 import express from "express";
-import {handleGenerateNewShortUrl, handleGetAnalytics}  from '../controllers/url_shortner_controller.mjs'
+import {handleGenerateNewShortUrl, handleGetAnalytics, getUrlId}  from '../controllers/url_shortner_controller.mjs'
 
 const router = express.Router();
 router.post('/', handleGenerateNewShortUrl);
 router.get('/analytics/:shortId', handleGetAnalytics );
-
+router.get('/:shortId', getUrlId);
 
 
 export const urlRouter = router;

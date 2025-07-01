@@ -1,5 +1,6 @@
 import express from "express";
 import {urlRouter} from "./routes/url_routes.mjs";
+import { staticRourer } from "./routes/static_router.mjs";
 // import { user_route } from "./routes/user_routes.mjs";
 import connectToMongodb from './config/config.mjs';
 import { getUrlId } from "./controllers/url_shortner_controller.mjs";
@@ -17,18 +18,15 @@ connectToMongodb('mongodb://localhost:27017/short-url').then(()=> console.log('M
 
 app.get('/:shortId', getUrlId);
 
-app.get('/',async (req, res)=>{
-     let allURL = await URL.find({});
-    return res.render('home', {
-        allURL
-    })
-})
+
 
 
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 //routing lvl middleware....
 app.use('/url', urlRouter);
+app.use('/', staticRourer)
 // app.use('/user', user_route);
 
 app.listen(PORT, () => {
