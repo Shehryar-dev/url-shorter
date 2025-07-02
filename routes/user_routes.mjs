@@ -1,10 +1,11 @@
 import express from "express";
-import {handleUserSignup} from '../controllers/user_controller.mjs'
+import {handleUserLogin, handleUserSignup} from '../controllers/user_controller.mjs'
 const router = express.Router();
 
 router.post('/', handleUserSignup)
+router.post('/login', handleUserLogin)
 
 
-export const user_route = router;
+export const userRoute = router;
 
 
