@@ -1,5 +1,6 @@
 export async function HomeRender(req, res){
-    const allURLs = await URL.find({})
+   if(!req.user) return res.redirect('/login')
+    const allURLs = await URL.find({createdBy: req.user._id})
    return res.render('home', {
        urls: allURLs
     });

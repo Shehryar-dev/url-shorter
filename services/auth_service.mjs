@@ -6,5 +6,5 @@ export function setUser(id, user){
 
 
 export function getUser(id){
-    sessionIdToUserMap.get(id);
+    return sessionIdToUserMap.get(id);
 }
