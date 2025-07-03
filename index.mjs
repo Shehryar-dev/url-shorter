@@ -16,14 +16,10 @@ app.set('views', path.resolve('./views'));
 
 connectToMongodb('mongodb://localhost:27017/short-url').then(()=> console.log('Mongodb Connected'))
 
-
-// app.get('/:shortId', getUrlId);
-
 //built-in middleware!
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser())
-
 
 //routing lvl middleware....
 app.use('/url',restrictionToLoggedUserOnly, urlRouter);
