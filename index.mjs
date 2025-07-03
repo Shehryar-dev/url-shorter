@@ -1,7 +1,5 @@
 import express from "express";
 import connectToMongodb from './config/config.mjs';
-import { getUrlId } from "./controllers/url_shortner_controller.mjs";
-import  URL  from "./models/url_shortner_model.mjs";
 import path from 'path'
 
 
@@ -20,8 +18,6 @@ connectToMongodb('mongodb://localhost:27017/short-url').then(()=> console.log('M
 
 
 // app.get('/:shortId', getUrlId);
-
-
 
 
 app.use(express.json());
