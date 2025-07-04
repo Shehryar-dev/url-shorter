@@ -8,6 +8,7 @@ import { staticRourer } from "./routes/static_router.mjs";
 import { userRoute } from "./routes/user_routes.mjs";
 import { checkAuth, restrictionToLoggedUserOnly } from "./middlewares/auth_middleware.mjs";
 
+
 const app = express();
 const PORT = 3000;
 
