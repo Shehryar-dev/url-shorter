@@ -1,107 +1,121 @@
+# 🔗 URL Shortener - Stateful Auth (Node.js + Express + MongoDB)
 
-# 🔗 URL Shortener Project
-
-This project is a **URL Shortener** built using **Node.js**, **Express**, and **MongoDB**, with support for **Stateful** and **Stateless Authentication**.
-
-## 🌐 Live GitHub Repository
-[GitHub Repo – Shehryar-dev/url-shorter](https://github.com/Shehryar-dev/url-shorter.git)
+A powerful and clean URL Shortener backend built with Express, Mongoose, and EJS. Supports **stateful authentication using JWT + cookies**, **role-based access control**, and a neat URL dashboard for users.
 
 ---
 
-## 📁 Project Structure & Branches
+## 🚀 Features
 
-This project uses **2 branches** to demonstrate both authentication methods:
-
-- `stateful`: Session & cookie-based auth
-- `stateless`: Token-based (JWT) authentication
-
-```
-📦 url-shorter/
- ┣ 📂 controllers/
- ┣ 📂 middleware/
- ┣ 📂 models/
- ┣ 📂 routes/
- ┣ 📂 views/
- ┣ 📄 .env.example
- ┣ 📄 index.js
- ┣ 📄 package.json
- ┗ 📄 README.md
-```
+- Shorten long URLs instantly
+- User Authentication (Login/Register)
+- 🛡️ **Stateful JWT Authentication using cookies**
+- 🧑‍💻 Role-based Access Control (Admin / Normal User)
+- Admin: Can view **all URLs** from every user
+- Normal User: Can view **only their own generated URLs**
+- EJS templating for UI
+- MongoDB + Mongoose
+- Cookie-based session storage
 
 ---
 
-## 🔐 Authentication
+## 🔐 Authentication Flow (Stateful)
 
-### 1. ✅ Stateless Authentication
-- JWT-based secure login
-- Tokens are sent via headers
-- Lightweight, scalable
-
-### 2. ✅ Stateful Authentication
-- Cookie-based login system
-- Sessions stored in cookies
-- Suitable for traditional web apps
+- JWT token is created on login and stored in **HTTP-only cookies**
+- Protected routes verify token using middleware
+- User info is decoded from token for role and ID checking
+- Role field is used to apply access control
 
 ---
 
-## 🧩 Dependencies
+## 🧑‍🏫 Roles & Access
 
-```
-"cookie-parser": "^1.4.7",
-"ejs": "^3.1.10",
-"express": "^5.1.0",
-"jsonwebtoken": "^9.0.2",
-"mongoose": "^8.16.1",
-"nanoid": "^5.1.5",
-"shortid": "^2.2.17",
-"uuid": "^11.1.0"
+| Role   | Permissions                             |
+|--------|------------------------------------------|
+| `ADMIN`  | View ALL URLs, Users, and Stats          |
+| `NORMAL` | View and manage ONLY their own URLs     |
+
+---
+
+## 🗃️ User Model (Mongoose)
+
+```js
+const UserSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: {
+    type: String,
+    enum: ['NORMAL', 'ADMIN'],
+    default: 'NORMAL'
+  }
+});
 ```
 
 ---
 
-## 🚀 How to Run
+## 🔐 Middleware: Auth + Role
 
-### 1. Clone the Repository
+- **verifyUser**: Checks token from cookie and sets `req.user`
+- **checkRole('ADMIN')**: Protects admin routes
+
+---
+
+## 🛠 Tech Stack
+
+- **Express.js** – Web framework
+- **MongoDB + Mongoose** – Database
+- **EJS** – Template engine
+- **JWT** – Token auth
+- **cookie-parser** – Cookie middleware
+- **dotenv** – Env config
+- **nanoid / shortid / uuid** – URL ID generation
+
+---
+
+## 📂 Branches
+
+| Branch        | Description                       |
+|---------------|-----------------------------------|
+| `main`        | Stateless Auth Version            |
+| `stateful`    | ✅ Stateful Auth with Roles        |
+
+---
+
+## 🧪 Run Locally
+
 ```bash
 git clone https://github.com/Shehryar-dev/url-shorter.git
 cd url-shorter
-```
-
-### 2. Install Dependencies
-```bash
+git checkout stateful
 npm install
+npm run dev
 ```
 
-### 3. Setup Environment Variables
-Rename `.env.example` to `.env` and fill in the required values.
-
-### 4. Start the Server
-```bash
-npm start
-```
-
-### 5. Choose Branch
-```bash
-git checkout stateful     # for main (cookie-based login)
-git checkout stateless    # for JWT login
+Create a `.env` file:
+```env
+MONGODB_URI=your_mongo_connection
+JWT_SECRET=your_jwt_secret_key
+PORT=3000
 ```
 
 ---
 
-## ✨ Features
+## ✅ API Endpoints (Secure)
 
-- URL shortening using `nanoid`, `uuid`, and `shortid`
-- Custom URL codes
-- JWT & cookie authentication
-- EJS templating for UI
-- MongoDB for persistent storage
-
----
-
-## 📦 Author
-
-**Shehryar Saleem** – [GitHub](https://github.com/Shehryar-dev)
+- `POST /signup` – Register user
+- `POST /login` – Login & get token (in cookie)
+- `GET /` – Protected, based on user role
+- `POST /shorten` – Auth required, URL creation
+- `GET /` – Normal user’s URLs only
+- `GET /admin/urls` – Admin only
 
 ---
 
-> Built with ❤️ by a passionate learner and backend enthusiast!
+## ✍️ Author
+
+Shehryar Saleem – [@Shehryar-dev](https://github.com/Shehryar-dev)
+
+---
+
+## 📜 License
+
+MIT
