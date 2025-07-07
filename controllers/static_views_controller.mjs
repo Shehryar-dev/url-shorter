@@ -1,5 +1,13 @@
+export async function AdminHome(req, res){
+    const allURLs = await URL.find({})
+   return res.render('home', {
+       urls: allURLs
+    });
+}
+
+
+
 export async function HomeRender(req, res){
-   if(!req.user) return res.redirect('/login')
     const allURLs = await URL.find({createdBy: req.user._id})
    return res.render('home', {
        urls: allURLs

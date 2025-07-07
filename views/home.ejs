@@ -27,7 +27,7 @@
     </form>
 
     <% if(locals.id){ %>
-        <p>URL Generate: http://localhost:3000/url/<%= id  %></p>
+        <p>URL Generate: http://localhost:3002/url/<%= id  %></p>
 
     <% } %>
     <h2>Record Analytics</h2>
@@ -47,7 +47,7 @@
                     <tr style="padding: 12px;text-align: justify;">
                     <td style="padding: 12px;"><%= index + 1 %></td>
                     <td style="padding: 12px;"><%= url.shortId %></td>
-                    <td style="padding: 12px;">http://localhost:3000/url/<%= url.shortId %></td>
+                    <td style="padding: 12px;">http://localhost:3002/url/<%= url.shortId %></td>
                     <td style="padding: 12px;"><%= url.redirectURL %></td>
                     <td style="padding: 12px;"><%= url.visitHistory.length %></td>
                     </tr>

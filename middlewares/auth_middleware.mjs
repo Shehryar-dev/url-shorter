@@ -1,28 +1,27 @@
 import { v4 as uuidv4 } from 'uuid';
 import { getUser } from '../services/auth_service.mjs';
 
+export function checkForAuthentication(req, res, next) {
+    const tokenCookie = req.cookies?.token;
+    req.user = null; 
 
-export async function restrictionToLoggedUserOnly(req, res, next) {
-    // console.log(req)
-    const userUid = req.cookies?.uid;
+    if(!tokenCookie) return next();
 
-    console.log('userUId', userUid);
-    if(!userUid) return res.redirect('/login');
-
-    const user = getUser(userUid);
-    // console.log(user)
-    if(!user) return res.redirect('/login');
-
+    const token = tokenCookie;
+    const user = getUser(token);
+    
     req.user = user;
-    next();
+
+    return next();
 }
 
+export function restricTo(roles = []) {
+    return function(req, res, next){
+        if(!req.user) return res.redirect('/login');
 
-export async function checkAuth(req, res, next) {
-    // console.log(req)
-    const userUid = req.cookies?.uid;
-    const user = getUser(userUid);
+        if(!roles.includes(req.user.role)) return res.end('unauthorized');
 
-    req.user = user;
-    next();
+
+        return next()
+    } 
 }
